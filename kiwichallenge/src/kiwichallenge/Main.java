@@ -1,13 +1,9 @@
 package kiwichallenge;
 
-import java.util.*;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.lang.*;
 import java.util.Scanner;
+import java.util.Vector;
 
 class Main {
 	
@@ -41,15 +37,11 @@ class Main {
 		}
 		numOfZones = sc.nextInt();
 		allZones = new String [numOfZones];
-		allCitys = new String [numOfZones + numOfZones];
+		Vector<String> allCitys = new Vector<String>();
 		for(int i =0; i<numOfZones;i++)
 		{
 			allZones[i]=null;
-		}
-		for(int i =0; i<numOfZones*2;i++)
-		{
-			allCitys[i]=null;
-		}		
+		}	
 		departureAirport = sc.next();
 		sc.nextLine();
 		
@@ -74,14 +66,9 @@ class Main {
 					for(int j =0; j<split.length;j++)
 					{
 						System.out.println(split[j]);
-						allCitys[findCityNull()]=split[j];
+						allCitys.add(split[j]);
 					}
 				
-				}
-				else
-				{
-					allCitys[findCityNull()]=curLine;
-									
 				}
 			}
 			
@@ -97,13 +84,15 @@ class Main {
 		{
 			System.out.println(allZones[i]);
 		}
-		for(int i =0; i<allCitys.length;i++)
+		for(int i =0; i<allCitys.size();i++)
 		{
-			System.out.println(allCitys[i]);
+			System.out.println(allCitys.elementAt(i));
 		}
 		
 	
 	}
+	
+	
 	public static int count_Words(String str)
     {
        int count = 0;
@@ -137,6 +126,7 @@ class Main {
         return count; // returns 0 if string starts or ends with space " ".
         
     }
+	
 	public static int findZoneNull()
 	{
 		for(int i =0; i<=numOfZones;i++)
@@ -148,19 +138,7 @@ class Main {
 		}
 	 return-1;
 	}
-	public static int findCityNull()
-	{
-		for(int i =0; i<=numOfZones*2;i++)
-		{
-		
-			
-			if(allCitys[i]==null)
-			{
-			return i;
-			}	
-		}
-	 return-1;
-	}
+	
 
 
 }
