@@ -1,12 +1,13 @@
 package kiwichallenge;
 
 import java.util.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.lang.*;
+import java.util.Scanner;
 
 class Main {
 	
@@ -15,45 +16,151 @@ class Main {
 	static String currentAirport;
 	int dayCounter = 0;
 	int totalPrice = 0;
-	static Boolean [] zones;
+	static String curLine="";
+	Boolean [] zones;
 	String [] routeTaken;
+	static String [] allZones;
+	static String [] allCitys;
 	int [][] dayOfFlight;
 	int [][] priceOfFlight;
+	static String leaving;
+	static String going;
+	static int date;
+	static int cost;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
+		
+		
 		File file = new File("src/file.txt");
 		Scanner sc = new Scanner("it");
 		try {
 			sc = new Scanner(file);
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		numOfZones = sc.nextInt();
-		departureAirport = sc.next();
-		currentAirport = departureAirport;
-		zones = new Boolean[numOfZones];
-		System.out.println("Number of zones = " + numOfZones);
-		System.out.println("Departure Airport = " + departureAirport);
-		System.out.println("Current Airport = " + currentAirport);
-		for(int i = 0; i < numOfZones; i++) {
-			zones[i] = false;
-			System.out.println("Zones = " + zones[i]);
+		allZones = new String [numOfZones];
+		allCitys = new String [numOfZones + numOfZones];
+		for(int i =0; i<numOfZones;i++)
+		{
+			allZones[i]=null;
 		}
-
-		System.out.println(" ");
-
-		BufferedReader in = new BufferedReader(new FileReader(file)); 
-		String text = in.readLine(); 
-
-		System.out.println(text); 
-		try {
-			while (in.ready()) { 
-				  text = in.readLine(); 
-				  System.out.println(text); 
+		for(int i =0; i<numOfZones*2;i++)
+		{
+			allCitys[i]=null;
+		}		
+		departureAirport = sc.next();
+		sc.nextLine();
+		
+	
+		
+		for(int i =0; i<numOfZones*2;i++)
+		{
+		
+			if(i%2==0)
+			{
+				
+				allZones[findZoneNull()]=sc.nextLine();
+			}
+			else {
+				curLine=sc.nextLine();
+				int x = count_Words(curLine);
+				if (x!=1)
+				{
+					
+					String[] split= curLine.split("\\s+");
+					System.out.println(split.length);
+					for(int j =0; j<split.length;j++)
+					{
+						System.out.println(split[j]);
+						allCitys[findCityNull()]=split[j];
+					}
+				
 				}
-		} catch (IOException e) {
-			e.printStackTrace();
+				else
+				{
+					allCitys[findCityNull()]=curLine;
+									
+				}
+			}
+			
 		}	
+		
+		curLine=sc.nextLine();
+		
+		
+		
+		
+		
+		for(int i =0; i<numOfZones;i++)
+		{
+			System.out.println(allZones[i]);
+		}
+		for(int i =0; i<allCitys.length;i++)
+		{
+			System.out.println(allCitys[i]);
+		}
+		
+	
 	}
+	public static int count_Words(String str)
+    {
+       int count = 0;
+     
+       try {
+    	   if(!(" ".equals(str.substring(0, 1))) || !(" ".equals(str.substring(str.length() - 1))))
+    			   {
+    		   
+    			   }
+       }
+       catch(StringIndexOutOfBoundsException e)
+       {
+    	   return 1;
+       }
+			
+		
+        if (!(" ".equals(str.substring(0, 1))) || !(" ".equals(str.substring(str.length() - 1))))
+        {
+            for (int i = 0; i < str.length(); i++)
+            {
+                if (str.charAt(i) == ' ')
+                {
+                    count++;
+                }
+  
+            }
+            count = count + 1; 
+           
+        }
+       
+        return count; // returns 0 if string starts or ends with space " ".
+        
+    }
+	public static int findZoneNull()
+	{
+		for(int i =0; i<=numOfZones;i++)
+		{
+			if(allZones[i]==null)
+			{
+			return i;
+			}	
+		}
+	 return-1;
+	}
+	public static int findCityNull()
+	{
+		for(int i =0; i<=numOfZones*2;i++)
+		{
+		
+			
+			if(allCitys[i]==null)
+			{
+			return i;
+			}	
+		}
+	 return-1;
+	}
+
 
 }
