@@ -60,7 +60,6 @@ class Main {
 				int x = count_Words(curLine);
 				if (x!=1)
 				{
-					
 					String[] split= curLine.split("\\s+");
 					System.out.println(split.length);
 					for(int j =0; j<split.length;j++)
@@ -69,6 +68,10 @@ class Main {
 						allCitys.add(split[j]);
 					}
 				
+				}
+				else
+				{
+					allCitys.add(curLine);
 				}
 			}
 			
