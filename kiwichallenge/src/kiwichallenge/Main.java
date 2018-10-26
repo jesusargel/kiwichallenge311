@@ -119,7 +119,7 @@ class Main {
 		 * the second [] is what city the plane is leaving from
 		 * the third [] is what city the plane is going to
 		 */
-		flightCost= new int [numOfZones][allCitys.size()][allCitys.size()];
+		flightCost= new int [numOfZones+1][allCitys.size()][allCitys.size()];
 		/*
 		 * phase three starts after phase two. phase three is getting the cost of the flights
 		 * the pattern goes string string int int 
@@ -145,6 +145,7 @@ class Main {
 			going=sc.next();
 			date=sc.nextInt();
 			cost=sc.nextInt();
+		
 		
 			flightCost[date][allCitys.indexOf(leaving)][allCitys.indexOf(going)]=cost;
 		}
