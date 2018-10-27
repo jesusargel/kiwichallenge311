@@ -41,14 +41,14 @@ class Main {
 		}
 		numOfZones = sc.nextInt();
 		/*
-		 * phase one is the first line in the file it has the how many zone there are 
+		 * phase one is the first line in the file it has the how many zones there are 
 		 * and what is the starting area
 		 */
 		allZones = new String [numOfZones];
 		departureAirport = sc.next();
 		sc.nextLine();
 	/*
-	 * allZones is set to the length of numOfZones then then allZones is filled with null so 
+	 * allZones is set to the length of numOfZones then allZones is filled with null so 
 	 * we can add the zone names in later.
 	 */
 		for(int i =0; i<numOfZones;i++)
@@ -73,7 +73,7 @@ class Main {
 			{
 				/*
 				 * adds the zone into an empty space zone
-				 * and increase the areaCount so we can keep track of which citys are in 
+				 * and increase the areaCount so we can keep track of which cities are in 
 				 * what area 
 				 */
 				allZones[findZoneNull()]=sc.nextLine();
@@ -81,7 +81,7 @@ class Main {
 			}
 			else {
 				/*
-				 * curLine is equal the city line it checks to see how many citys are there
+				 * curLine is equal the city line it checks to see how many cities are there
 				 * based on count_Words it does that by looking for spaces in the string
 				 */
 				curLine=sc.nextLine();
@@ -131,7 +131,7 @@ class Main {
 		while(true)
 		{
 			/*
-			 * the while loop will keeping going until there is nothing left in the file
+			 * the while loop will keep going until there is nothing left in the file
 			 * to find that we first try sc.next if there is something there then we know
 			 * its a line of data if it fails then we know that the file is done
 			 */
@@ -170,7 +170,9 @@ class Main {
 			for(int j =0; j<allCitys.size();j++)
 				for(int k =0; k<allCitys.size();k++)
 			{
-					System.out.println(flightCost[i][j][k]);
+					if(flightCost[i][j][k] != 0) { // All flights has cost
+						System.out.println(flightCost[i][j][k] + "   " + allCitys.elementAt(j) + "   " + allCitys.elementAt(k));
+					}
 			}
 	}
 	/*
