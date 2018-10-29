@@ -241,7 +241,7 @@ class Main {
 		Vector<String> bestRoute = new Vector<String>();
 		bestRoute.addElement(departureAirport);
 		int day = 0;
-		String currentCity = null;
+		String bestDestination = null;
 		for(int i = 0; i<numOfZones;i++)
 		{
 			for(int j =0; j<allCitys.size();j++)
@@ -256,22 +256,24 @@ class Main {
 						}
 						else if(flightCost[i][j][k] > flightCost[i][j][k+1])
 						{
-							currentCity = allCitys.elementAt(k);
-							bestRoute.addElement(currentCity);
+							bestDestination = allCitys.elementAt(k);							
 							totalPrice += flightCost[i][j][k];
 							day++;
 							break;
 						}
 						else
 						{
-							currentCity = allCitys.elementAt(k+1);
-							bestRoute.addElement(currentCity);
+							bestDestination = allCitys.elementAt(k+1);
 							totalPrice += flightCost[i][j][k];
 							day++;
 							break;
 						}
 					}
 				}
+			}
+			if(bestDestination != null )
+			{
+				bestRoute.addElement(bestDestination);
 			}
 		}
 		bestRoute.addElement(departureAirport);
