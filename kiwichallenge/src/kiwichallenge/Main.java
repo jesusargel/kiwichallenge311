@@ -12,7 +12,7 @@ class Main {
 	static String departureAirport;
 	static String currentAirport;
 	int dayCounter = 0;
-	int totalPrice = 0;
+	static int totalPrice = 0;
 	static String curLine="";
 	Boolean [] zones;
 	String [] routeTaken;
@@ -167,6 +167,7 @@ class Main {
 		}
 		System.out.println("what the flights cost looks like");
 		for(int i =0; i<numOfZones;i++)
+		{
 			for(int j =0; j<allCitys.size();j++)
 				for(int k =0; k<allCitys.size();k++)
 			{
@@ -174,7 +175,15 @@ class Main {
 						System.out.println(flightCost[i][j][k] + "   " + allCitys.elementAt(j) + "   " + allCitys.elementAt(k));
 					}
 			}
+		}
+		System.out.println("An optimal route is: ");
+		System.out.println(findBestRoute());
+		System.out.println("The total price for this route is: ");
+		System.out.println(totalPrice);
+		
 	}
+	
+	
 	/*
 	 * this looks to see how many words are in the string 
 	 * idk the code since it was riped from a website 
@@ -225,6 +234,48 @@ class Main {
 			}	
 		}
 	 return-1;
+	}
+	
+	public static Vector<String> findBestRoute()
+	{
+		Vector<String> bestRoute = new Vector<String>();
+		bestRoute.addElement(departureAirport);
+		int day = 0;
+		String currentCity = null;
+		for(int i = 0; i<numOfZones;i++)
+		{
+			for(int j =0; j<allCitys.size();j++)
+			{
+				for(int k =0; k<allCitys.size() - 1;k++)
+				{
+					if(flightCost[i][j][k] != 0 && day == i) {// All flights has cost
+						if(day == 0)
+						{
+							totalPrice += flightCost[day][j][k];
+							day = 1;
+						}
+						else if(flightCost[i][j][k] > flightCost[i][j][k+1])
+						{
+							currentCity = allCitys.elementAt(k);
+							bestRoute.addElement(currentCity);
+							totalPrice += flightCost[i][j][k];
+							day++;
+							break;
+						}
+						else
+						{
+							currentCity = allCitys.elementAt(k+1);
+							bestRoute.addElement(currentCity);
+							totalPrice += flightCost[i][j][k];
+							day++;
+							break;
+						}
+					}
+				}
+			}
+		}
+		bestRoute.addElement(departureAirport);
+		return bestRoute;
 	}
 	
 
