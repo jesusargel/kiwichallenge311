@@ -255,11 +255,11 @@ class Main {
 						System.out.println(departureAirport);
 						System.out.println(currentCity);
 						System.out.println(allCitys.elementAt(j));
-						if(currentCity == allCitys.elementAt(j))
+						if(currentCity.equals(allCitys.elementAt(j)))
 						{
 							for(int k= 0; k<allCitys.size() - 1;k++)
 							{
-								if(flightCost[i][j][k] != 0) {// All flights has cost
+								if(flightCost[i][j][k] != 0  && !bestRoute.contains(allCitys.elementAt(k))) {// All flights has cost
 									if(flightCost[i][j][k] < currentCost)
 									{
 										currentCost = flightCost[i][j][k];
@@ -268,17 +268,21 @@ class Main {
 								}
 							}
 							currentCity = bestDestination;
+							if(bestDestination != null )
+							{
+								bestRoute.addElement(bestDestination);
+								bestDestination = null;
+								totalPrice += currentCost;
+								currentCost = 1000000;
+								break;
+							}
 						}
 					}
 					
 				}
 			}
-			totalPrice += currentCost;
 			day++;
-			if(bestDestination != null )
-			{
-				bestRoute.addElement(bestDestination);
-			}
+			
 		}
 		bestRoute.addElement(departureAirport);
 		return bestRoute;
