@@ -11,15 +11,11 @@ class Main {
 	static int numOfZones;
 	static String departureAirport;
 	static String currentAirport;
-	int dayCounter = 0;
 	static int totalPrice = 0;
 	static String curLine="";
-	Boolean [] zones;
-	String [] routeTaken;
+	static Boolean [] zones;
 	static String [] allZones;
 	static Vector<String> allCitys = new Vector<String>();
-	int [][] dayOfFlight;
-	int [][] priceOfFlight;
 	static String leaving;
 	static String going;
 	static int date;
@@ -31,7 +27,9 @@ class Main {
 	public static void main(String[] args) {
 		
 		
-		File file = new File("src/file.txt");
+		long startTime = System.currentTimeMillis();
+		File file = new File("src/4_Nodes_5_Ports.txt");
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner("it");
 		try {
 			sc = new Scanner(file);
@@ -45,6 +43,7 @@ class Main {
 		 * and what is the starting area
 		 */
 		allZones = new String [numOfZones];
+		zones = new Boolean [numOfZones];
 		departureAirport = sc.next();
 		sc.nextLine();
 	/*
@@ -54,7 +53,12 @@ class Main {
 		for(int i =0; i<numOfZones;i++)
 		{
 			allZones[i]=null;
-		}	
+		}
+		
+		for(int i =0; i<numOfZones;i++)
+		{
+			zones[i]=false;
+		}
 	
 		/*
 		 * phase two starts after the phase one end. phase two then goes into 
@@ -149,7 +153,7 @@ class Main {
 		
 			flightCost[date][allCitys.indexOf(leaving)][allCitys.indexOf(going)]=cost;
 		}
-		
+		/*
 		System.out.println("all of the zones");
 		for(int i =0; i<numOfZones;i++)
 		{
@@ -176,10 +180,14 @@ class Main {
 					}
 			}
 		}
+		*/
+		
 		System.out.println("An optimal route is: ");
 		System.out.println(findBestRoute());
 		System.out.println("The total price for this route is: ");
 		System.out.println(totalPrice);
+		long endTime = System.currentTimeMillis();
+		System.out.println("Finding this route took: "+(endTime - startTime) + " milliseconds");
 		
 	}
 	
@@ -239,6 +247,7 @@ class Main {
 	public static Vector<String> findBestRoute()
 	{
 		Vector<String> bestRoute = new Vector<String>();
+		zones[citysArea.elementAt(allCitys.indexOf(departureAirport))] = true;
 		bestRoute.addElement(departureAirport);
 		int day = 1;
 		int currentCost = 1000000;
@@ -252,14 +261,11 @@ class Main {
 				{
 					if(currentCity != null)
 					{
-						System.out.println(departureAirport);
-						System.out.println(currentCity);
-						System.out.println(allCitys.elementAt(j));
 						if(currentCity.equals(allCitys.elementAt(j)))
 						{
-							for(int k= 0; k<allCitys.size() - 1;k++)
+							for(int k= 0; k<allCitys.size();k++)
 							{
-								if(flightCost[i][j][k] != 0  && !bestRoute.contains(allCitys.elementAt(k))) {// All flights has cost
+								if(flightCost[i][j][k] != 0  && !bestRoute.contains(allCitys.elementAt(k)) && !zones[citysArea.elementAt(k)]) {// All flights has cost
 									if(flightCost[i][j][k] < currentCost)
 									{
 										currentCost = flightCost[i][j][k];
@@ -271,6 +277,7 @@ class Main {
 							if(bestDestination != null )
 							{
 								bestRoute.addElement(bestDestination);
+								zones[citysArea.elementAt(allCitys.indexOf(bestDestination))] = true;
 								bestDestination = null;
 								totalPrice += currentCost;
 								currentCost = 1000000;
@@ -284,6 +291,7 @@ class Main {
 			day++;
 			
 		}
+		totalPrice += flightCost[numOfZones][allCitys.indexOf(currentCity)][allCitys.indexOf(departureAirport)];
 		bestRoute.addElement(departureAirport);
 		return bestRoute;
 	}
